@@ -1,4 +1,4 @@
-package uz.qmgroup.mab_glossary.features.search
+package uz.qmgroup.mab_glossary.features.editor
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,22 +8,22 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uz.qmgroup.mab_glossary.features.search.datasource.TermDataSource
 
-class SearchViewModel(private val source: TermDataSource) :
+class EditorViewModel(private val source: TermDataSource) :
     ViewModel() {
-    private val _state = MutableStateFlow<SearchScreenState>(SearchScreenState.Loading)
+    private val _state = MutableStateFlow<EditorScreenState>(EditorScreenState.Loading)
     val state = _state.asStateFlow()
 
     fun search(searchQuery: String) {
         viewModelScope.launch {
-            _state.update { SearchScreenState.Loading }
+            _state.update { EditorScreenState.Loading }
 
             val data = source.searchTerms(searchQuery)
 
             _state.update {
                 if (data.isEmpty())
-                    SearchScreenState.NoDataFound
+                    EditorScreenState.NoDataFound
                 else
-                    SearchScreenState.DataFetched(data)
+                    EditorScreenState.DataFetched(data)
             }
         }
     }

@@ -3,4 +3,7 @@
     <string name="search_in_glossary">Search in glossary</string>
     <string name="no_data_found">No data found</string>
     <string name="loading">Loading …</string>
+    <string name="open_editor">Open editor</string>
+    <string name="search_in_editor">Search in editor</string>
+    <string name="word_detail"><![CDATA[Word Detail >]]></string>
 </resources>

@@ -1,4 +1,4 @@
-package uz.qmgroup.mab_glossary.features.search
+package uz.qmgroup.mab_glossary.features.editor
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -13,10 +13,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -39,21 +40,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
+import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import uz.qmgroup.mab_glossary.R
 import uz.qmgroup.mab_glossary.components.TermComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(
-    modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = koinViewModel()
-) {
+fun EditorScreen(modifier: Modifier = Modifier, viewModel: EditorViewModel = koinViewModel()) {
     var searchQuery by remember {
         mutableStateOf("")
     }
-    var showOptionsDialog by remember {
-        mutableStateOf(false)
-    }
+    val navigator = LocalRootController.current
 
     LaunchedEffect(key1 = viewModel, key2 = searchQuery) {
         delay(200)
@@ -73,7 +70,7 @@ fun SearchScreen(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
                     placeholder = {
-                        Text(text = stringResource(R.string.search_in_glossary))
+                        Text(text = stringResource(R.string.search_in_editor))
                     },
                     shape = RoundedCornerShape(99.dp),
                     colors = TextFieldDefaults.textFieldColors(
@@ -84,23 +81,25 @@ fun SearchScreen(
                     ),
                     textStyle = MaterialTheme.typography.bodyLarge,
                     leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = stringResource(id = R.string.search_in_glossary),
-                            modifier = Modifier.padding(16.dp)
-                        )
-                    },
-                    trailingIcon = {
-                        IconButton(onClick = { showOptionsDialog = true }) {
-                            Icon(imageVector = Icons.Default.MoreVert, contentDescription = "More")
+                        IconButton(onClick = { navigator.popBackStack() }) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = stringResource(R.string.search_in_editor),
+                            )
                         }
-                    }
+                    },
                 )
             })
+        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(onClick = { /*TODO*/ }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "New")
+                Text(text = "New")
+            }
         }
     ) {
         AnimatedVisibility(
-            visible = state == SearchScreenState.Loading,
+            visible = state == EditorScreenState.Loading,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -112,12 +111,15 @@ fun SearchScreen(
                 ) {
                     CircularProgressIndicator()
 
-                    Text(text = stringResource(R.string.loading), style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        text = stringResource(R.string.loading),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
             }
         }
         AnimatedVisibility(
-            visible = state is SearchScreenState.NoDataFound,
+            visible = state is EditorScreenState.NoDataFound,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -126,12 +128,15 @@ fun SearchScreen(
                     modifier = Modifier.align(Alignment.Center),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = stringResource(R.string.no_data_found), style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        text = stringResource(R.string.no_data_found),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
                 }
             }
         }
 
-        if (state is SearchScreenState.DataFetched) {
+        if (state is EditorScreenState.DataFetched) {
             LazyColumn(
                 modifier = Modifier.padding(it),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -141,16 +146,12 @@ fun SearchScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp),
-                        term = term
+                        term = term,
+                        buttonText = "Edit >",
+                        onButtonClick = {}
                     )
                 }
             }
-        }
-
-        if (showOptionsDialog) {
-            MainOptionsMenu(
-                closeDialog = { showOptionsDialog = false }
-            )
         }
     }
 }

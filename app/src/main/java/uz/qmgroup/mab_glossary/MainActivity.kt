@@ -15,6 +15,8 @@ import ru.alexgladkov.odyssey.compose.navigation.RootComposeBuilder
 import ru.alexgladkov.odyssey.compose.setup.OdysseyConfiguration
 import ru.alexgladkov.odyssey.compose.setup.setNavigationContent
 import ru.alexgladkov.odyssey.core.configuration.DisplayType
+import uz.qmgroup.mab_glossary.features.editor.EditorScreen
+import uz.qmgroup.mab_glossary.features.editor.di.editorKoinModule
 import uz.qmgroup.mab_glossary.features.search.SearchScreen
 import uz.qmgroup.mab_glossary.features.search.di.searchKoinModule
 import uz.qmgroup.mab_glossary.ui.theme.MaBGlossaryTheme
@@ -26,7 +28,7 @@ class MainActivity : ComponentActivity() {
 
         startKoin {
             androidContext(this@MainActivity.applicationContext)
-            modules(searchKoinModule)
+            modules(searchKoinModule, editorKoinModule)
         }
 
         setContent {
@@ -46,5 +48,6 @@ class MainActivity : ComponentActivity() {
 }
 
 fun RootComposeBuilder.navigationGraph(modifier: Modifier = Modifier) {
-    this.screen("search ") { SearchScreen(modifier = modifier.fillMaxSize().imePadding()) }
+    this.screen("search") { SearchScreen(modifier = modifier.fillMaxSize().imePadding()) }
+    this.screen("editor") { EditorScreen(modifier = modifier.fillMaxSize().imePadding()) }
 }
