@@ -4,43 +4,47 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+import ru.alexgladkov.odyssey.compose.extensions.screen
+import ru.alexgladkov.odyssey.compose.navigation.RootComposeBuilder
+import ru.alexgladkov.odyssey.compose.setup.OdysseyConfiguration
+import ru.alexgladkov.odyssey.compose.setup.setNavigationContent
+import ru.alexgladkov.odyssey.core.configuration.DisplayType
+import uz.qmgroup.mab_glossary.features.search.SearchScreen
+import uz.qmgroup.mab_glossary.features.search.di.searchKoinModule
 import uz.qmgroup.mab_glossary.ui.theme.MaBGlossaryTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        startKoin {
+            androidContext(this@MainActivity.applicationContext)
+            modules(searchKoinModule)
+        }
+
         setContent {
             MaBGlossaryTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
+                val configuration = OdysseyConfiguration(
+                    canvas = this,
+                    displayType = DisplayType.EdgeToEdge,
+                    backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+                )
+
+                setNavigationContent(configuration) {
+                    navigationGraph()
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MaBGlossaryTheme {
-        Greeting("Android")
-    }
+fun RootComposeBuilder.navigationGraph(modifier: Modifier = Modifier) {
+    this.screen("search ") { SearchScreen(modifier = modifier.fillMaxSize().imePadding()) }
 }
