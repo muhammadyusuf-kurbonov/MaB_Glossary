@@ -40,7 +40,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
+import ru.alexgladkov.odyssey.compose.extensions.present
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
+import ru.alexgladkov.odyssey.compose.navigation.modal_navigation.AlertConfiguration
 import uz.qmgroup.mab_glossary.R
 import uz.qmgroup.mab_glossary.components.TermComponent
 
@@ -51,6 +53,7 @@ fun EditorScreen(modifier: Modifier = Modifier, viewModel: EditorViewModel = koi
         mutableStateOf("")
     }
     val navigator = LocalRootController.current
+    val modalController = navigator.findModalController()
 
     LaunchedEffect(key1 = viewModel, key2 = searchQuery) {
         delay(200)
@@ -92,9 +95,19 @@ fun EditorScreen(modifier: Modifier = Modifier, viewModel: EditorViewModel = koi
             })
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(onClick = { /*TODO*/ }) {
+            ExtendedFloatingActionButton(
+                onClick = {
+                    val configuration = AlertConfiguration(cornerRadius = 6)
+                    modalController.present(configuration) {
+                        EditorFormSheet(
+                            closeRequest = { modalController.popBackStack(it) },
+                            saveAction = viewModel::saveTerm,
+                        )
+                    }
+                }
+            ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "New")
-                Text(text = "New")
+                Text(text = stringResource(R.string.New))
             }
         }
     ) {
@@ -148,7 +161,16 @@ fun EditorScreen(modifier: Modifier = Modifier, viewModel: EditorViewModel = koi
                             .padding(horizontal = 16.dp),
                         term = term,
                         buttonText = "Edit >",
-                        onButtonClick = {}
+                        onButtonClick = {
+                            val configuration = AlertConfiguration(cornerRadius = 6)
+                            modalController.present(configuration) {
+                                EditorFormSheet(
+                                    closeRequest = { modalController.popBackStack(it) },
+                                    termObject = term,
+                                    saveAction = viewModel::saveTerm
+                                )
+                            }
+                        }
                     )
                 }
             }

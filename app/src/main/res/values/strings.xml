@@ -6,4 +6,9 @@
     <string name="open_editor">Open editor</string>
     <string name="search_in_editor">Search in editor</string>
     <string name="word_detail"><![CDATA[Word Detail >]]></string>
+    <string name="term">Term</string>
+    <string name="Definition">Definition</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Save">Save</string>
+    <string name="New">New</string>
 </resources>

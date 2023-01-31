@@ -3,6 +3,7 @@ package uz.qmgroup.mab_glossary
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.material3.MaterialTheme
@@ -39,8 +40,15 @@ class MainActivity : ComponentActivity() {
                     backgroundColor = MaterialTheme.colorScheme.primaryContainer,
                 )
 
-                setNavigationContent(configuration) {
-                    navigationGraph()
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .imePadding()
+                ) {
+                    setNavigationContent(configuration) {
+                        navigationGraph()
+                    }
                 }
             }
         }
@@ -48,6 +56,6 @@ class MainActivity : ComponentActivity() {
 }
 
 fun RootComposeBuilder.navigationGraph(modifier: Modifier = Modifier) {
-    this.screen("search") { SearchScreen(modifier = modifier.fillMaxSize().imePadding()) }
-    this.screen("editor") { EditorScreen(modifier = modifier.fillMaxSize().imePadding()) }
+    this.screen("search") { SearchScreen(modifier = modifier) }
+    this.screen("editor") { EditorScreen(modifier = modifier) }
 }

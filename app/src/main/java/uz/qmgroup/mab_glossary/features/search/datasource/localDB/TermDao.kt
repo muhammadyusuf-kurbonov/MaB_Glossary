@@ -3,6 +3,8 @@ package uz.qmgroup.mab_glossary.features.search.datasource.localDB
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TermDao {
@@ -10,5 +12,8 @@ interface TermDao {
     suspend fun insertTerm(term: LocalDBTermEntity)
 
     @Query("SELECT * FROM LocalDBTermEntity WHERE term LIKE '%' || :query || '%'")
-    suspend fun searchTerm(query: String): List<LocalDBTermEntity>
+    fun searchTerm(query: String): Flow<List<LocalDBTermEntity>>
+
+    @Update
+    suspend fun updateTerm(term: LocalDBTermEntity)
 }
