@@ -9,4 +9,8 @@ interface TermDataSource {
     suspend fun insert(term: Term)
 
     suspend fun update(term: Term)
+
+    suspend fun insertOrUpdate(term: Term)
+
+    fun loadPaged(): Flow<Term>
 }

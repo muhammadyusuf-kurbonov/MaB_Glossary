@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import uz.qmgroup.mab_glossary.features.search.datasource.TermDataSource
 import uz.qmgroup.mab_glossary.features.search.models.Term
+import uz.qmgroup.mab_glossary.features.synchronize.Synchronizer
+import uz.qmgroup.mab_glossary.features.synchronize.remote.FirestoreTermDataSource
 
 class EditorViewModel(
     private val source: TermDataSource
@@ -39,6 +41,17 @@ class EditorViewModel(
             } else {
                 source.update(term)
             }
+        }
+    }
+
+    fun synchronizeTerms() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update { EditorScreenState.Synchronising(0, 0) }
+            Synchronizer(
+                FirestoreTermDataSource(),
+                source
+            ).synchronize()
+            search("")
         }
     }
 }

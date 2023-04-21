@@ -1,0 +1,42 @@
+[versions]
+accompanist-systemuicontroller = "0.29.1-alpha"
+androidx-junit = "1.1.5"
+core-ktx = "1.10.0"
+activity-compose = "1.7.1"
+espresso-core = "3.5.1"
+firebase-crashlytics-gradle = "2.9.5"
+firebase-firestore-ktx = "24.5.0"
+firebase-analytics-ktx = "21.2.2"
+firebase-crashlytics-ktx = "18.3.6"
+google-services = "4.3.15"
+gradle = "8.1.0-beta01"
+junit = "4.13.2"
+koin-androidx-compose = "3.4.4"
+koin-android = "3.4.0"
+odyssey-version = "1.3.1"
+lifecycle-viewmodel-compose = "2.6.1"
+room_version = "2.5.1"
+
+[libraries]
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist-systemuicontroller" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
+firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebase-firestore-ktx" }
+firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics-ktx" }
+firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics-ktx" }
+google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+junit = { module = "junit:junit", version.ref = "junit" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-androidx-compose" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-android" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-viewmodel-compose" }
+odyssey-core = { module = "io.github.alexgladkov:odyssey-core", version.ref = "odyssey-version" }
+odyssey-compose = { module = "io.github.alexgladkov:odyssey-compose", version.ref = "odyssey-version" }
+lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-compose" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room_version" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room_version" }
+room-paging = { module = "androidx.room:room-paging", version.ref = "room_version" }
+[plugins]

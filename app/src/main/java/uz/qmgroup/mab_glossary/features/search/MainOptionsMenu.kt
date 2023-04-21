@@ -12,12 +12,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,12 +28,11 @@ import ru.alexgladkov.odyssey.compose.extensions.push
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import uz.qmgroup.mab_glossary.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainOptionsMenu(modifier: Modifier = Modifier, closeDialog: () -> Unit) {
     val navigationController = LocalRootController.current
     Dialog(onDismissRequest = closeDialog) {
-        Surface(modifier = modifier, shape = RoundedCornerShape(6.dp)) {
+        Card(modifier = modifier, shape = RoundedCornerShape(6.dp)) {
             Column {
                 Text(
                     text = stringResource(id = R.string.app_name),
@@ -69,32 +66,6 @@ fun MainOptionsMenu(modifier: Modifier = Modifier, closeDialog: () -> Unit) {
 
                         Text(
                             text = stringResource(id = R.string.open_editor),
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                    }
-                }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { }
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .size(24.dp),
-                            imageVector = Icons.Default.KeyboardArrowDown,
-                            contentDescription = stringResource(R.string.open_editor)
-                        )
-
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        Text(
-                            text = "Download updates",
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }

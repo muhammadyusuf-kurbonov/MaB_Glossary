@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -91,6 +92,14 @@ fun EditorScreen(modifier: Modifier = Modifier, viewModel: EditorViewModel = koi
                             )
                         }
                     },
+                    trailingIcon = {
+                        IconButton(onClick = { viewModel.synchronizeTerms() }) {
+                            Icon(
+                                imageVector = Icons.Default.Sync,
+                                contentDescription = stringResource(R.string.search_in_editor),
+                            )
+                        }
+                    }
                 )
             })
         },
@@ -126,6 +135,26 @@ fun EditorScreen(modifier: Modifier = Modifier, viewModel: EditorViewModel = koi
 
                     Text(
                         text = stringResource(R.string.loading),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+        AnimatedVisibility(
+            visible = state is EditorScreenState.Synchronising,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            Box(modifier = modifier.fillMaxSize()) {
+                Column(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    CircularProgressIndicator()
+
+                    Text(
+                        text = "Sync in progress ...",
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
